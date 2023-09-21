@@ -1,0 +1,67 @@
+-- Q1. [50 marks] LP23s
+
+tokens {
+    SKIP: "((//.*(\r?\n))|\s)+" -- DO NOT MODIFY (simple comments and whitespace)
+    LBR: "\("
+    RBR: "\)"
+    LCBR: "\{"
+    RCBR: "\}"
+    MAIN: "main"
+    MUL: "\*"
+    SUB: "-"
+    ADD: "\+"
+    DIVIDE: "\/"
+    OR: "\|\|"
+    AND: "&&"
+    LESS: "<"
+    LESSEQUAL: "<="
+    EQUALEQUAL: "=="
+    NOT: "!"
+    UNTIL : "until"
+    INTEGER: "[0-9]+"
+    REPEAT: "repeat"
+    IF: "if"
+    DO: "do"
+    ELDO: "eldo"
+    ENDIF : "endif"
+    SEMICOL: "\;"
+    PRINTCHAR: "printchar"
+    PRINTINT: "printint"
+    VARIABLE: "_[a-zA-Z0-9_$]+|[a-zA-Z][A-Za-z0-9_$]*"
+    ASSIGN: "<-"
+
+}
+
+Prog -> MAIN LCBR Stm* RCBR
+Stm -> IF Exp DO Stm* ELDO Stm* ENDIF
+Stm -> REPEAT Stm* UNTIL Exp SEMICOL
+Stm -> VARIABLE ASSIGN Exp SEMICOL
+Stm -> PRINTCHAR Exp SEMICOL
+Stm -> PRINTINT Exp SEMICOL
+
+
+
+Exp -> SimpleExp OperatorClause
+
+OperatorClause -> Operator SimpleExp
+OperatorClause ->
+
+SimpleExp -> INTEGER
+SimpleExp -> LBR Exp RBR
+SimpleExp -> VARIABLE
+SimpleExp -> SUB SimpleExp
+SimpleExp -> NOT SimpleExp
+
+-- to be completed
+
+Operator -> MUL
+Operator -> SUB
+Operator -> ADD
+Operator -> OR
+Operator -> DIVIDE
+Operator -> AND
+Operator -> LESSEQUAL
+Operator -> EQUALEQUAL
+Operator -> LESS
+Operator -> NOT
+-- to be completed

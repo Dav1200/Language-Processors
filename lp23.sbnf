@@ -1,0 +1,111 @@
+-- Q2. [30 marks] LP23ef
+
+tokens {
+    SKIP: "((//.*(\r?\n))|\s)+" -- DO NOT MODIFY (simple comments and whitespace)
+   LBR: "\("
+       RBR: "\)"
+       LCBR: "\{"
+       RCBR: "\}"
+       MAIN: "main"
+       MUL: "\*"
+       COMMA: "\,"
+       SUB: "-"
+       ADD: "\+"
+       DIVIDE: "\/"
+       OR: "\|\|"
+       AND: "&&"
+       PP: "\+\+"
+       LESS: "\<"
+       LESSEQUAL: "\<="
+       EQUALEQUAL: "=="
+       NOT: "!"
+       UNTIL: "until"
+       INTEGER: "[0-9]+"
+       DEF: "def"
+       REPEAT: "repeat"
+       IF: "if"
+       ELIF: "elif"
+       DO: "do"
+       MALLOC : "malloc"
+       SBL : "\["
+       SBR : "\]"
+       ENDIF: "endif"
+       ELDO: "eldo"
+       RETURN: "return"
+       SEMICOL: "\;"
+       PRINTCHAR: "printchar"
+       PRINTINT: "printint"
+       VARIABLE: "_[a-zA-Z0-9_$]+|[a-zA-Z][A-Za-z0-9_$]*"
+       ASSIGN: "\<-"
+
+
+}
+
+Prog -> MAIN LCBR Stm*  RCBR Function*
+Stm -> IF  Exp  DO Stm* Elf* Eld ENDIF
+Elf -> ELIF Exp DO Stm*
+Eld -> ELDO Stm*
+Eld ->
+Stm -> MALLOC SBR Exp SBR
+Stm -> REPEAT Stm* UNTIL Exp SEMICOL
+Stm -> PP  VARIABLE Col* SEMICOL
+Stm -> VARIABLE Alt
+Stm -> PRINTCHAR Exp SEMICOL
+Stm -> PRINTINT Exp SEMICOL
+Stm -> RETURN Exp SEMICOL
+Alt -> ASSIGN Exp  SEMICOL
+Alt -> LBR Change RBR SEMICOL
+Alt -> SBL Exp SBR Alt
+Col -> SBL Exp SBR
+
+
+Function -> DEF VARIABLE LBR Params RBR LCBR Stm* RCBR
+Params -> VARIABLE Paramt
+Params ->
+Paramt -> COMMA VARIABLE Paramt
+Paramt->
+
+Exp ->  SimpleExp OperatorClause
+
+OperatorClause -> Operator SimpleExp
+OperatorClause ->
+
+SimpleExp -> INTEGER
+SimpleExp -> LBR Exp RBR
+SimpleExp -> NOT SimpleExp
+SimpleExp -> SUB SimpleExp
+SimpleExp -> VARIABLE Afterv
+SimpleExp -> PP Afterp
+SimpleExp -> MALLOC SBL Exp SBR
+
+Afterp -> VARIABLE Afterv
+
+Afterv -> LBR Change RBR
+Afterv -> SBL Exp SBR
+Afterv ->
+
+Change -> Exp AfterT
+Change ->
+
+AfterT -> COMMA Exp AfterT
+AfterT ->
+
+
+
+-- to be completed
+
+Operator -> MUL
+Operator -> ADD
+Operator -> SUB
+Operator -> OR
+Operator -> DIVIDE
+Operator -> AND
+Operator -> LESSEQUAL
+Operator -> EQUALEQUAL
+Operator -> LESS
+Operator -> NOT
+--Operator -> PP
+
+
+
+-- to be completed
